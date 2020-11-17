@@ -8,9 +8,31 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var text: String = "SwiftUI"
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        VStack {
+            Text(text)
+                .padding()
+            Button(action: {
+                text = log("Message from Discardadble result")
+            }, label: {
+                Text("Get message")
+            })
+            .onAppear() {
+                log("Discardable Result")
+            }
+        }
+    }
+    
+    @discardableResult
+    private func log(_ message: String,
+                     _ file: String = #file,
+                     _ line: Int = #line,
+                     _function: String = #function) -> String {
+        let message = "[\(file):\(line)] \(_function) - \(message)"
+        print(message)
+        return message
     }
 }
 
